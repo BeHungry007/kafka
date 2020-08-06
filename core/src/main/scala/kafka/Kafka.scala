@@ -31,6 +31,11 @@ object Kafka extends Logging {
 
   def getPropsFromArgs(args: Array[String]): Properties = {
     val optionParser = new OptionParser(false)
+    /**
+      * accepts方法：          返回new OptionSpecBuilder(this, options, description)。
+      * withRequiredArg()方法：通知选项解析器此构建起的选项需要参数。
+      * ofType方法：           将对象转换为String。
+     */
     val overrideOpt = optionParser.accepts("override", "Optional property that should override values set in server.properties file")
       .withRequiredArg()
       .ofType(classOf[String])
@@ -55,6 +60,9 @@ object Kafka extends Logging {
 
   def main(args: Array[String]): Unit = {
     try {
+      /**
+        * 从配置文件中读取配置的属性，并赋值给serverProps
+        */
       val serverProps = getPropsFromArgs(args)
       val kafkaServerStartable = KafkaServerStartable.fromProps(serverProps)
 
